@@ -8,22 +8,28 @@ import data
 import FRCNN_FPN
 import resnet50
 import tracktor
-
-device = torch.device("cpu") #change to gpu if u have
+import yaml
 
 def control(tracktor,reid):
+
+    #Config file upload
+    with open(r'"C:/Users/HP.HP-PC/Tracker/config.yaml"') as file:
+            config = yaml.load(file, Loader=yaml.FullLoader)
 
     #default seed assumed
 
     #Object Detector 
-    obj_detect = FRCNN_FPN(num_classes=3)
+    obj_detect = FRCNN_FPN(num_classes=2)
     obj_detect.load_state_dict(torch.load(r"C:/Users/HP.HP-PC/Tracker/model_epoch_27.model"))
 
     #Re-identification Network
     reid_network = resnet50(pretrained=False, **reid['cnn'])
     reid_network.load_state_dict(torch.load(r"C:/Users/HP.HP-PC/Tracker/ResNet_iter_25245.pth"))
     
-    tracktor = Tracktor(obj_detect, reid_network,config) #figure out how to use config.yaml as an object
+
+    tracktor = tracktor(obj_detect, reid_network,config)
+    #figure out how to use config.yaml as an object
+
 
 
 if(__name__ == "__main__"):
