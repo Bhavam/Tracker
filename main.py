@@ -11,7 +11,7 @@ import tracktor
 import yaml
 
 def control(tracktor,reid):
-
+   def __init__(self):
     #Config file upload
     with open(r'"C:/Users/HP.HP-PC/Tracker/config.yaml"') as file:
             config = yaml.load(file, Loader=yaml.FullLoader)
@@ -28,8 +28,6 @@ def control(tracktor,reid):
     
 
     tracktor = tracktor(obj_detect, reid_network,config)
-    #figure out how to use config.yaml as an object
-
-
 
 if(__name__ == "__main__"):
+    control()

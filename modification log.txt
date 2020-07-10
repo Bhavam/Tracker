@@ -1,0 +1,4 @@
+#1
+Scaled test to train phase
+Modified object tracker training 
+Try changing from pretrained to untrained later
