@@ -10,3 +10,8 @@ Added prediction methods
 
 #3
 Completed prediction method
+
+#4
+Dynamically saving thru cv2 not working if in loop ?
+Even imshow not working
+Works for single image why?
