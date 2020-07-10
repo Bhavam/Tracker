@@ -20,28 +20,48 @@ class box:
             self.bb_top = top
             self.bb_width = width
             self.bb_depth = depth
+ 
+    def create_frame_list(self,boxes):
+        frame_map = {}
+        for bx in boxes:
+                if bx.frame_id in frame_map:
+                    frame_map[bx.frame_id].append(bx.box_id)
+                else:
+                    frame_map[bx.frame_id] = [bx.box_id]
+        
+        return frame_map      
 
 #main tracktor class
-class tracktor():
-     def __init__(self,object_detector,reid_network,config):
-         self.object_detector = object_detector
-         self.reid_network = reid_network
+class tracktor:
+     def __init__(self,object_detector,config): #,reid_network
+         #self.object_detector = object_detector
+         #self.reid_network = reid_network
          #figure out parameters to be minimally extracted from config file
-         self.read_detections()
-         self.predict_boxes()
-         self.write_boxes()
-     def predict_boxes(self):
+        self.category = ['person']
+        self.training_data = []
         self.boxes = []
         self.score = []
+        self.object_detector = object_detector
+        self.run()
+         
+     def run(self):
+         #self.read_detections()
+         self.predict_boxes()
+         #self.write_boxes()
+         
+     def predict_boxes(self):
         #figure out output of boxes, scores to fit to custom bounding box class
         for img_path in os.listdir(path_image): 
             total_img_path = os.path.join(path_image , img_path)
             image = cv2.imread(total_img_path)
+            transform = torch.Compose([torch.ToTensor()]) 
+            #image = transform(image)
             self.object_detector.load_image(image)
-            boxes,scores = self.object_detector.detect(image)
+            b,s = self.object_detector.detect(image)
+            self.boxes.append(b)
+            self.score.append(s)
      def write_boxes(self):
-        #list of frames
-        self.training_data = []
+
         #predicting bounding boxes for each video frame  
         self.frame_count = 0
         self.images = []
@@ -49,7 +69,7 @@ class tracktor():
             
             total_img_path = os.path.join(path_image , img_path)
             image = cv2.imread(total_img_path)
-            training_data.append(image)
+            self.training_data.append(image)
             idx = self.frame_count
             predicted_image = image
 
@@ -60,7 +80,7 @@ class tracktor():
                                 (int(self.training_data[i].bb_left + self.training_data[i].bb_width),int(self.training_data[i].bb_top + self.training_data[i].bb_depth)),
                                 (255,0,0) ,2)
 
-            frame_count = frame_count + 1
+            self.frame_count = self.frame_count + 1
 
             #Uncomment to see predicted video frames one by one 
             """ cv2.imshow('x',predicted_image)
@@ -80,5 +100,6 @@ class tracktor():
                    self.training_data.append(box(float(row[0]),float(row[1]),float(row[2]),float(row[3]),float(row[4]),float(row[5]),float(row[6]),float(row[7]),float(row[8])))
         self.box_count = len(self.training_data) 
 
-if __name__ == '__main__':
-    tracktor()
+#if __name__ == '__main__':
+    #tr = tracktor()
+    #tr.run()

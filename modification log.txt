@@ -2,3 +2,11 @@
 Scaled test to train phase
 Modified object tracker training 
 Try changing from pretrained to untrained later
+
+#2
+Using pretrained network frcnn resnet50 fpn
+Trained only on pedestrians
+Added prediction methods
+
+#3
+Completed prediction method

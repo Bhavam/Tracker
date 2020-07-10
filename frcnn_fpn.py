@@ -1,5 +1,4 @@
 from collections import OrderedDict
-
 import torch
 import torch.nn.functional as F
 
@@ -64,14 +63,14 @@ class FRCNN_FPN(FasterRCNN):
         return pred_boxes, pred_scores
 
     def load_image(self, images):
-        device = list(self.parameters())[0].device
-        images = images.to(device)
+        """         device = list(self.parameters())[0].device
+        images = images.to(device) """
 
         self.original_image_sizes = [img.shape[-2:] for img in images]
 
-        preprocessed_images, _ = self.transform(images, None)
+        preprocessed_images = images
         self.preprocessed_images = preprocessed_images
 
-        self.features = self.backbone(preprocessed_images.tensors)
+        self.features = self.backbone(torch.from_numpy(preprocessed_images))
         if isinstance(self.features, torch.Tensor):
             self.features = OrderedDict([(0, self.features)])
