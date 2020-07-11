@@ -56,9 +56,7 @@ class tracktor:
          
      def predict_boxes(self,img_path):
         #figure out output of boxes, scores to fit to custom bounding box class 
-            total_img_path = os.path.join(path_image , img_path)
-            image = cv2.imread(total_img_path)
-            self.imge = image
+            image = cv2.imread(img_path)
             transform = torchvision.transforms.Compose([torchvision.transforms.ToTensor()]) 
             image = transform(image)
             pred = self.object_detector([image]) 
@@ -73,12 +71,9 @@ class tracktor:
      def plot_boxes(self):
          i = 0;
          for img_path in os.listdir(path_image):
-             i += 1
-             totalImagePath = os.path.join(path_image,img_path)
-             bb,s = self.predict_boxes(img_path)
-             
-             img = cv2.imread(totalImagePath)
-            
+             total_img_path = os.path.join(path_image , img_path)
+             bb,s = self.predict_boxes(total_img_path)
+             img = cv2.imread(img_path)
              for i in range(len(bb)):
                  cv2.rectangle(img, bb[i][0], bb[i][1],(255 , 0 , 0),2)
              cv2.imwrite(out_path_image+"pred00"+str(i)+".jpg",img)
@@ -91,7 +86,6 @@ class tracktor:
         self.frame_count = 0
         self.images = []
         for img_path in os.listdir(path_image):
-            
             total_img_path = os.path.join(path_image , img_path)
             image = cv2.imread(total_img_path)
             self.training_data.append(image)
@@ -116,7 +110,7 @@ class tracktor:
             out = os.path.join(out_path_image,'predicted_'+img_path)
             cv2.imwrite(out,predicted_image)
    
-     def read_detections1(self):
+     def read_detections(self):
         #reading bounding box information
         with open(path_box) as bb_list:
                 data = csv.reader(bb_list , delimiter = ',')

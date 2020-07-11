@@ -15,3 +15,6 @@ Completed prediction method
 Dynamically saving thru cv2 not working if in loop ?
 Even imshow not working
 Works for single image why?
+
+#5
+Fixed error it was a path issue 
