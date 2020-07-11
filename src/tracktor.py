@@ -8,10 +8,9 @@ import csv
 import matplotlib.pyplot as plt
 
 #path declarations hardcoded for the moment
-path_image=r'/home/sushant/Desktop/bhavam-code/Tracker/images/'
-out_path_image=r'/home/sushant/Desktop/bhavam-code/Tracker/output/'
-# path_box=r'C:/Users/HP.HP-PC/tracking_wo_bnw/data/MOT17Det/train/MOT17-02/gt/gt.txt'
-img_path_ex = r'/home/sushant/Desktop/bhavam-code/Tracker/images/000004.jpg'
+path_image=r'C:/Users/HP.HP-PC/tracking_wo_bnw/data/MOT17Det/train/MOT17-02/img1'
+out_path_image=r'C:/Users/HP.HP-PC/tracking_wo_bnw/data/MOT17Det/train/MOT17-02/img2'
+path_box=r'C:/Users/HP.HP-PC/tracking_wo_bnw/data/MOT17Det/train/MOT17-02/gt/gt.txt'
 
 #Class to save box details
 class box:
@@ -69,7 +68,6 @@ class tracktor:
             return self.boxes,self.score
 
      def plot_boxes(self):
-         i = 0;
          for img_path in os.listdir(path_image):
              total_img_path = os.path.join(path_image , img_path)
              bb,s = self.predict_boxes(total_img_path)
