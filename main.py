@@ -11,11 +11,7 @@ import yaml
 
 def control():
     #Config file upload
-    with open(r'C:/Users/HP.HP-PC/Tracker/config.yaml') as file:
-            config = yaml.load(file, Loader=yaml.FullLoader)
-
-    #default seed assumed
-
+    
     #Object Detector 
     obj_detect = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=True) 
     obj_detect.eval()
@@ -25,7 +21,7 @@ def control():
     """  reid_network = resnet50(pretrained=True)
     reid_network.load_state_dict(torch.load(r"C:/Users/HP.HP-PC/tracking_wo_bnw/output/tracktor/reid/res50-mot17-batch_hard/ResNet_iter_25245.pth")) """
     
-    t = tracktor(obj_detect,config)
+    t = tracktor(obj_detect)
 
 if(__name__ == "__main__"):
     control()
