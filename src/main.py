@@ -4,7 +4,7 @@ import numpy as np
 import motmetrics as mm
 import torch
 import torchvision
-from frcnn_fpn import FRCNN_FPN
+from utils.frcnn_fpn import FRCNN_FPN
 #from resnet import resnet50
 from tracktor import tracktor
 import yaml
@@ -21,7 +21,7 @@ def control():
     """  reid_network = resnet50(pretrained=True)
     reid_network.load_state_dict(torch.load(r"C:/Users/HP.HP-PC/tracking_wo_bnw/output/tracktor/reid/res50-mot17-batch_hard/ResNet_iter_25245.pth")) """
     
-    t = tracktor(obj_detect)
+    tracktor(obj_detect).run()
 
 if(__name__ == "__main__"):
     control()
